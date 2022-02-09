@@ -1,24 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import Alert from './components/Alert';
+import Form from './components/Form';
+import List from './components/List';
+import { useGlobalContext } from './context';
 
 function App() {
+  const { alert, items } = useGlobalContext();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {alert.show && <Alert type={alert.type} msg={alert.message} />}
+      <h1>budget app</h1>
+      <main className='App'>
+        <Form />
+        <List />
+      </main>
+      <h1>
+        total spending :
+        <span className='total'>
+          $
+          {items.reduce((acc, item) => {
+            return (acc += parseInt(item.amount));
+          }, 0)}
+        </span>
+      </h1>
+    </>
   );
 }
 
